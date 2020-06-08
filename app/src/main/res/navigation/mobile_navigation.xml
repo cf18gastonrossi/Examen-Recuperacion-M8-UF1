@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.recuperacion.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_welcome">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.recuperacion.ui.carta.CartaFragment"
+        android:label="Platos Menú"
+        tools:layout="@layout/fragment_platos_menu" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.recuperacion.ui.ver_reservas.ListaReservasFragment"
+        android:label="Lista Reservas"
+        tools:layout="@layout/fragment_vista_reserva" />
+    <fragment
+        android:id="@+id/nuevaReservaFragment"
+        android:name="com.example.recuperacion.ui.nueva_reserva.NuevaReservaFragment"
+        android:label="fragment_hacer_reserva"
+        tools:layout="@layout/fragment_hacer_reserva" />
+</navigation>
