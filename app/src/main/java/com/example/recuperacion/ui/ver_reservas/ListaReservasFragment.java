@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recuperacion.Model.Reserva;
 import com.example.recuperacion.R;
+import com.example.recuperacion.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class ListaReservasFragment extends Fragment {
 
     private VerReservasViewModel verReservasViewModel;
     RecyclerView reservas_recycler;
-    List<Reserva> reservas = new ArrayList<>();
+    ArrayList<Reserva> reservas = new ArrayList<>();
     ReservaAdapter reservaAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,27 +37,40 @@ public class ListaReservasFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vista_reserva, container, false);
 
+        Repository repository = new Repository(getContext());
+        repository.open();
+        repository.fetch();
+
+        repository.getReservaLive().observe(getViewLifecycleOwner(), new Observer<ArrayList<Reserva>>() {
+            @Override
+            public void onChanged(ArrayList<Reserva> reservas1) {
+                reservas = reservas1;
+                reservaAdapter = new ReservaAdapter(reservas);
+                reservas_recycler.setAdapter(reservaAdapter);
+            }
+        });
 
         reservas_recycler = view.findViewById(R.id.reservas_Recycler);
+        reservas_recycler.setHasFixedSize(true);
         reservas_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         reservaAdapter = new ReservaAdapter(reservas);
         reservas_recycler.setAdapter(reservaAdapter);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         reservas_recycler.addItemDecoration(dividerItemDecoration);
 
         return view;
     }
 
 
-    public class ReservaViewHolder extends RecyclerView.ViewHolder{
+    public class ReservaViewHolder extends RecyclerView.ViewHolder {
 
         TextView fecha, personas;
 
         public ReservaViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            fecha = itemView.findViewById(R.id.fechaViewHolder);
-            personas = itemView.findViewById(R.id.personasViewHolder);
+            fecha = itemView.findViewById(R.id.fechaRespuesta);
+            personas = itemView.findViewById(R.id.personasRespuesta);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,9 +84,9 @@ public class ListaReservasFragment extends Fragment {
 
     public class ReservaAdapter extends RecyclerView.Adapter<ReservaViewHolder> {
 
-        List<Reserva> reservaList;
+        ArrayList<Reserva> reservaList;
 
-        public ReservaAdapter(List<Reserva> reservaList) {
+        public ReservaAdapter(ArrayList<Reserva> reservaList) {
             this.reservaList = reservaList;
         }
 
@@ -87,14 +101,17 @@ public class ListaReservasFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ReservaViewHolder reservaViewHolder, int i) {
 
-            reservaViewHolder.fecha.setText("0");
-            reservaViewHolder.personas.setText("0");
+            String fecha = reservaList.get(i).getFecha();
+            int personas = reservaList.get(i).getPersonas();
+
+            reservaViewHolder.fecha.setText(fecha);
+            reservaViewHolder.personas.setText(String.valueOf(personas));
 
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return reservaList.size();
         }
     }
 

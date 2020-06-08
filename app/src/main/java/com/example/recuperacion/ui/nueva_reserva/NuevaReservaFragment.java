@@ -14,13 +14,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.recuperacion.Model.Reserva;
 import com.example.recuperacion.R;
+import com.example.recuperacion.repository.Repository;
 
 public class NuevaReservaFragment extends Fragment {
 
     private NuevaReservaViewModel mViewModel;
     private EditText fecha, comensales, comentarios, nombre, telefono;
     private Button enviar_reserva;
+    private Repository repository;
 
     public static NuevaReservaFragment newInstance() {
         return new NuevaReservaFragment();
@@ -45,7 +48,10 @@ public class NuevaReservaFragment extends Fragment {
         enviar_reserva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                repository = new Repository(getContext());
+                repository.open();
+                repository.insert(new Reserva(fecha.getText().toString(),Integer.parseInt(comensales.getText().toString()),comentarios.getText().toString(),nombre.getText().toString(), telefono.getText().toString()));
+                repository.close();
             }
         });
 
