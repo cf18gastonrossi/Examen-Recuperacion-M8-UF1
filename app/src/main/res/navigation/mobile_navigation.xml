@@ -30,5 +30,10 @@
         android:name="com.example.recuperacion.ui.nueva_reserva.NuevaReservaFragment"
         android:label="fragment_hacer_reserva"
         tools:layout="@layout/fragment_hacer_reserva" />
+    <fragment
+        android:id="@+id/detallFragment"
+        android:name="com.example.recuperacion.ui.detall.DetallFragment"
+        android:label="fragment_detalle_reserva"
+        tools:layout="@layout/fragment_detalle_reserva" />
 
 </navigation>

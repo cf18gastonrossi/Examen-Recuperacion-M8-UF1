@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,8 +38,7 @@ public class ListaReservasFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vista_reserva, container, false);
 
-        Repository repository = new Repository(getContext());
-        repository.open();
+        Repository repository = Repository.open(getContext());
         repository.fetch();
 
         repository.getReservaLive().observe(getViewLifecycleOwner(), new Observer<ArrayList<Reserva>>() {
@@ -75,7 +75,9 @@ public class ListaReservasFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("POSITION", getAdapterPosition());
+                    Navigation.findNavController(v).navigate(R.id.detallFragment, bundle);
                 }
             });
         }

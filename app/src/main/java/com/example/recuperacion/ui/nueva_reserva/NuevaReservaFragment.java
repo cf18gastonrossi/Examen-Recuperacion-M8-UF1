@@ -48,9 +48,9 @@ public class NuevaReservaFragment extends Fragment {
         enviar_reserva.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                repository = new Repository(getContext());
-                repository.open();
-                repository.insert(new Reserva(fecha.getText().toString(),Integer.parseInt(comensales.getText().toString()),comentarios.getText().toString(),nombre.getText().toString(), telefono.getText().toString()));
+                repository =
+                        Repository.open(getContext());
+                repository.insert(new Reserva(fecha.getText().toString(), Integer.parseInt(comensales.getText().toString()), comentarios.getText().toString(), nombre.getText().toString(), telefono.getText().toString()));
                 repository.close();
             }
         });

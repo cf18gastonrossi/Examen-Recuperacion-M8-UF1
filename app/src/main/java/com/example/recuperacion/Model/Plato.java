@@ -1,5 +1,8 @@
 package com.example.recuperacion.Model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Plato {
 
     private String nombre_plato;
@@ -10,6 +13,16 @@ public class Plato {
         this.nombre_plato = nombre_plato;
         this.ingredientes = ingredientes;
         this.precio = precio;
+    }
+
+    public Plato(JSONObject jsonObject) {
+        try {
+            nombre_plato = jsonObject.getString("nombre");
+            ingredientes = jsonObject.getString("ingredientes");
+            precio = jsonObject.getInt("precio");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getNombre_plato() {
